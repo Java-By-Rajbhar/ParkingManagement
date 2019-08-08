@@ -12,29 +12,23 @@ import com.hcl.parking.api.repository.EmployeeRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-	
+
 	private static final Logger logger = LogManager.getLogger(EmployeeServiceImpl.class);
 	@Autowired
 	EmployeeRepository employeeRepository;
+
 	@Override
 	public String employeeRegistration(EmployeeDto employeeDto) {
 		logger.info("from employeeRegistration() method");
-		logger.info("employeeDto data={}",employeeDto);
-		//convert dto to entity
+		logger.info("employeeDto data={}", employeeDto);
+		// convert dto to entity
 		Employee employee = new Employee();
 		BeanUtils.copyProperties(employeeDto, employee);
-		logger.info("after conversion dto to employee entity={}",employee);
+		logger.info("after conversion dto to employee entity={}", employee);
+		//save data
 		Employee employee2 = employeeRepository.save(employee);
-		if(employee2!=null)
-		{
-			logger.info("successfully registered={}",employee2);
-			return "You are successfully registered with id "+employee2.getEmpId();
-		}
-		else
-		{
-			logger.error("Something went wrong ,try again");
-			return "Please try again !!!!";
-		}
+		
+		logger.info("successfully registered={}", employee2);
+		return "You are successfully registered with id " + employee2.getEmpId();
 	}
-
 }

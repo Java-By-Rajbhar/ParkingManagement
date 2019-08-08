@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hcl.parking.api.dto.EmployeeDto;
 import com.hcl.parking.api.service.AvailableParkingServiceImpl;
 import com.hcl.parking.api.service.EmployeeServiceImpl;
+import com.hcl.parking.api.service.SlotServiceImpl;
 
 @RestController
 @RequestMapping("/parking")
@@ -24,6 +26,8 @@ public class ParkingController {
 	EmployeeServiceImpl employeeServiceImpl;
 	@Autowired
 	AvailableParkingServiceImpl availableParkingServiceImpl;
+	@Autowired
+	SlotServiceImpl slotServiceImpl;
 	
 	@PostMapping("/registration")
 	public ResponseEntity<String> employeeRegistration(@RequestBody EmployeeDto employeeDto)
@@ -40,5 +44,13 @@ public class ParkingController {
 		logger.info("from bookParking () with parameters empid and slotid={}",empId,slotId);
 		String bookMessage = availableParkingServiceImpl.bookSlot(slotId, empId);
 		return new ResponseEntity<String>(bookMessage, HttpStatus.OK);
+	}
+	
+	@PutMapping("/releaseAllSlot")
+	public ResponseEntity<String> releaseSlotdaily()
+	{
+		logger.info("from releaseSlotdaily()");
+		String update_message  = slotServiceImpl.releasedailySlot();
+		return new ResponseEntity<String>(update_message, HttpStatus.OK);
 	}
 }

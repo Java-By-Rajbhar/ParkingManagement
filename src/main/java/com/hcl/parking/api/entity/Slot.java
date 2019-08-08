@@ -14,5 +14,6 @@ public class Slot {
 	@GeneratedValue
 	private long slotId;
 	private String slotStatus;
+	private String isReserve;
 
 }
